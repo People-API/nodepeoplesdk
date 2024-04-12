@@ -1,5 +1,5 @@
 // import the People Node SDK
-var { Person, Memory, Urge } = require('peoplesdk');
+var { Person, Memory, Urge, Mood } = require('peoplesdk');
 var fs = require('fs');
 
 // First, let's dump themirrazz' brain
@@ -56,3 +56,27 @@ trump.sight.on('start', event => {
         trump.urges.revoke(urge);
     }
 });
+
+// what the hell am I doing
+var panos = new Person({
+    first_name: 'Panos',
+    last_name: 'Palay'
+});
+
+// every freggin' second
+var pW = false;
+setInterval(function () {
+    if(panos.sleep.isAsleep()) {
+        if(!pW) {
+            pW = true;
+            setTimeout(function () {
+                panos.speak("WHAT TGEUHJKFLKEHB");
+                panos.sleep.forceWakeUp();
+            }, 60000)
+        }
+    } else {
+        pW = false;
+    }
+    panos.mood.change(Mood.Sad);
+    panos.speak("THEY'RE OUT OF WAFFLES!!");
+},942749250);
