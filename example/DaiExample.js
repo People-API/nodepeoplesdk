@@ -1,5 +1,5 @@
 // import the People Node SDK
-var { Person, Memory } = require('peoplesdk');
+var { Person, Memory, Urge } = require('peoplesdk');
 var fs = require('fs');
 
 // First, let's dump themirrazz' brain
@@ -33,3 +33,26 @@ var fs = require('fs');
     // instantly highlight this
     person.thoughts.highlightMemory(memory);
 })();
+
+// let's do something more fun
+var trump = new Person({
+    first_name: 'Donald',
+    last_name: 'Trump',
+    birthdate: new Date('June 14, 1946')
+});
+
+// lmfao
+trump.sight.on('start', event => {
+    if(event.type != 'person') {
+        return
+    };
+    if(event.person.first_name+" "+event.person.last_name != 'Joe Biden') {
+        return
+    }
+    var urge = new Urge();
+    urge.action = Urge.Kiss(event.person);
+    trump.urges.append(urge);
+    event.onend = () => {
+        trump.urges.revoke(urge);
+    }
+});
